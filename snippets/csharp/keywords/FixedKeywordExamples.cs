@@ -9,6 +9,7 @@ namespace keywords
         public static void Examples()
         {
             ModifyFixedStorage();
+            FixedSpanExample();
             InitializeFixedStorage();
             MultiplePointers();
             SquarePointValue();
@@ -38,6 +39,33 @@ namespace keywords
             }
         }
         // </Snippet1>
+
+        // <SnippetFixedSpan>
+        unsafe private static void FixedSpanExample()
+        {
+            int[] PascalsTriangle = {
+                          1,
+                        1,  1,
+                      1,  2,  1,
+                    1,  3,  3,  1,
+                  1,  4,  6,  4,  1,
+                1,  5,  10, 10, 5,  1
+            };
+
+            Span<int> RowFive = new Span<int>(PascalsTriangle, 10, 5);
+
+            fixed (int* ptrToRow = RowFive)
+            {
+                // Sum the numbers 1,4,6,4,1
+                var sum = 0;
+                for (int i = 0; i < RowFive.Length; i++)
+                {
+                    sum += *(ptrToRow + i);
+                }
+                Console.WriteLine(sum);
+            }
+        }
+        // </SnippetFixedSpan>
 
         unsafe private static void InitializeFixedStorage()
         {
@@ -129,7 +157,7 @@ namespace keywords
                     Console.WriteLine(*p2);
                     Console.WriteLine("--------");
                     Console.WriteLine(*p);
-                    // Deferencing p and incrementing changes the value of a[0] ...
+                    // Dereferencing p and incrementing changes the value of a[0] ...
                     *p += 1;
                     Console.WriteLine(*p);
                     *p += 1;
@@ -140,16 +168,18 @@ namespace keywords
             Console.WriteLine("--------");
             Console.WriteLine(a[0]);
 
-            // Output:
-            //10
-            //20
-            //30
-            //--------
-            //10
-            //11
-            //12
-            //--------
-            //12
+            /*
+            Output:
+            10
+            20
+            30
+            --------
+            10
+            11
+            12
+            --------
+            12
+            */
             // </Snippet5>
         }
 

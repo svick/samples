@@ -80,6 +80,11 @@ namespace Example
 
          Console::WriteLine( "The path of this Uri is {0}", uriAddress->GetLeftPart( UriPartial::Path ) );
          Console::WriteLine( "Hash code {0}", uriAddress->GetHashCode() );
+         // The example displays the following output:
+         //        #search
+         //        Uri uses the default port
+         //        The path of this Uri is http://www.contoso.com/index.htm
+         //        Hash code -988419291
          //</snippet4>
 
          //<snippet5>
@@ -93,6 +98,11 @@ namespace Example
          Console::WriteLine( "Uri {0} a UNC path", uriAddress2->IsUnc ? (String^)"is" : "is not" );
          Console::WriteLine( "Uri {0} a local host", uriAddress2->IsLoopback ? (String^)"is" : "is not" );
          Console::WriteLine( "Uri {0} a file", uriAddress2->IsFile ? (String^)"is" : "is not" );
+         // The example displays the following output:
+         //    \\server\filename.ext
+         //    Uri is a UNC path
+         //    Uri is not a local host
+         //    Uri is a file
          //</snippet6>
       }
 

@@ -9,32 +9,23 @@ namespace Aes_Example
     {
         public static void Main()
         {
-            try
+            string original = "Here is some data to encrypt!";
+
+            // Create a new instance of the Aes
+            // class.  This generates a new key and initialization 
+            // vector (IV).
+            using (Aes myAes = Aes.Create())
             {
 
-                string original = "Here is some data to encrypt!";
+                // Encrypt the string to an array of bytes.
+                byte[] encrypted = EncryptStringToBytes_Aes(original, myAes.Key, myAes.IV);
 
-                // Create a new instance of the Aes
-                // class.  This generates a new key and initialization 
-                // vector (IV).
-                using (Aes myAes = Aes.Create())
-                {
+                // Decrypt the bytes to a string.
+                string roundtrip = DecryptStringFromBytes_Aes(encrypted, myAes.Key, myAes.IV);
 
-                    // Encrypt the string to an array of bytes.
-                    byte[] encrypted = EncryptStringToBytes_Aes(original, myAes.Key, myAes.IV);
-
-                    // Decrypt the bytes to a string.
-                    string roundtrip = DecryptStringFromBytes_Aes(encrypted, myAes.Key, myAes.IV);
-
-                    //Display the original data and the decrypted data.
-                    Console.WriteLine("Original:   {0}", original);
-                    Console.WriteLine("Round Trip: {0}", roundtrip);
-                }
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error: {0}", e.Message);
+                //Display the original data and the decrypted data.
+                Console.WriteLine("Original:   {0}", original);
+                Console.WriteLine("Round Trip: {0}", roundtrip);
             }
         }
         //<Snippet2>
@@ -48,6 +39,7 @@ namespace Aes_Example
             if (IV == null || IV.Length <= 0)
                 throw new ArgumentNullException("IV");
             byte[] encrypted;
+            
             // Create an Aes object
             // with the specified key and IV.
             using (Aes aesAlg = Aes.Create())
@@ -55,7 +47,7 @@ namespace Aes_Example
                 aesAlg.Key = Key;
                 aesAlg.IV = IV;
 
-                // Create a decrytor to perform the stream transform.
+                // Create an encryptor to perform the stream transform.
                 ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
 
                 // Create the streams used for encryption.
@@ -65,7 +57,6 @@ namespace Aes_Example
                     {
                         using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
                         {
-
                             //Write all data to the stream.
                             swEncrypt.Write(plainText);
                         }
@@ -103,7 +94,7 @@ namespace Aes_Example
                 aesAlg.Key = Key;
                 aesAlg.IV = IV;
 
-                // Create a decrytor to perform the stream transform.
+                // Create a decryptor to perform the stream transform.
                 ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
 
                 // Create the streams used for decryption.

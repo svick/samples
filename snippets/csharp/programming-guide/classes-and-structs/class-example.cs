@@ -1,24 +1,26 @@
+using System;
+
 public class Person
 {
-    // Field
-    private string name;
-
-    // Constructor that takes no arguments.
+    // Constructor that takes no arguments:
     public Person()
     {
-        name = "unknown";
+        Name = "unknown";
     }
 
-    // Constructor that takes one argument.
-    public Person(string nm)
+    // Constructor that takes one argument:
+    public Person(string name)
     {
-        name = nm;
+        Name = name;
     }
 
-    // Method
-    public void SetName(string newName)
+    // Auto-implemented readonly property:
+    public string Name { get; }
+
+    // Method that overrides the base class (System.Object) implementation.
+    public override string ToString()
     {
-        name = newName;
+        return Name;
     }
 }
 class TestPerson
@@ -26,15 +28,14 @@ class TestPerson
     static void Main()
     {
         // Call the constructor that has no parameters.
-        Person person1 = new Person();
-        Console.WriteLine(person1.name);
-
-        person1.SetName("John Smith");
-        Console.WriteLine(person1.name);
+        var person1 = new Person();
+        Console.WriteLine(person1.Name);
 
         // Call the constructor that has one parameter.
-        Person person2 = new Person("Sarah Jones");
-        Console.WriteLine(person2.name);
+        var person2 = new Person("Sarah Jones");
+        Console.WriteLine(person2.Name);
+        // Get the string representation of the person2 instance.
+        Console.WriteLine(person2);
 
         Console.WriteLine("Press any key to exit.");
         Console.ReadKey();
@@ -42,5 +43,5 @@ class TestPerson
 }
 // Output:
 // unknown
-// John Smith
+// Sarah Jones
 // Sarah Jones

@@ -1,3 +1,4 @@
+//<Snippet1>
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,7 +9,7 @@ namespace TabControlContentTemplateSelector
 {
     // Create a class that represents a person.  
     // This class contains a person's first name, last name, 
-    // and home town.
+    // and hometown.
     public class Person : INotifyPropertyChanged
     {
         private string firstname;
@@ -72,7 +73,7 @@ namespace TabControlContentTemplateSelector
             }
         }
     }
-
+    //</Snippet1>
     // Create a collection of Person objects.
     public class People : ObservableCollection<Person>
     {

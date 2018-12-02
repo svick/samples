@@ -56,6 +56,12 @@ ordering
 
 Sort sequences.
 
+partitioning
+---------
+
+Dividing an input sequence into two parts without rearranging
+them and then returning one of the parts.
+
 projection
 ---------
 
@@ -84,7 +90,7 @@ and `Union`.
 
 Build and Run
 =============
-.
+
 To build and run the sample, type the following two commands in any of the subdirectories:
 
 `dotnet restore`

@@ -36,8 +36,7 @@ namespace PatternMatching
             Height = height;
         }
     }
-
-    public struct Triangle
+    public class Triangle
     {
         public double Base { get; }
         public double Height { get; }

@@ -1,5 +1,3 @@
-
-
 namespace PLINQ_Samples
 {
     using System;
@@ -182,119 +180,6 @@ namespace PLINQ_Samples
                 Console.Write("{0} ", v);
             //</snippet13>
         }
-
-        //dummy signatures for compilation
-
-
-        // Removing old 24 and 25 becuase shared static data is a no-non and
-        // should not be used even for demonstration purposes
-        //<s n i p p e t 2 4>
-        //static void SequentialDemoOld()
-        //{
-
-        //    var orders = GetOrders();
-
-        //    int counter = 0;
-        //    var parallelQuery = from ord in orders.AsParallel()
-        //                        where ord.ShippedDate > DateTime.Parse("7/7/1996")
-        //                        orderby ord.CustomerID
-        //                        select new
-        //                        {
-        //                            TempID = counter++, //possible race condition
-        //                            date = ord.ShippedDate,
-        //                            custID = ord.CustomerID
-        //                        };
-
-        //    Console.WriteLine("Parallel -------------------------------------------------");
-        //    foreach (var v in parallelQuery)
-        //        Console.WriteLine("TempID: {0} {1} {2}", v.TempID, v.date.ToShortDateString(), v.custID);
-
-        //    counter = 0;
-        //    var sequentialQuery = orders.AsParallel()
-        //                                .OrderBy(o => o.CustomerID)
-        //                                .AsSequential()
-        //                                .Select(ord => new
-        //                                {
-        //                                    TempID = counter++,
-        //                                    date = ord.ShippedDate,
-        //                                    custID = ord.CustomerID
-        //                                });
-
-        //    Console.WriteLine("Sequential -------------------------------------------------");
-        //    foreach (var v in sequentialQuery)
-        //        Console.WriteLine("TempID: {0} {1} {2}", v.TempID, v.date.ToShortDateString(), v.custID);
-
-        //}
-
-        /*
-         * Excerpt from output (parallel results may vary on each execution):
-         *  Parallel -------------------------------------------------
-            TempID: 60 9/24/1996 ANATR
-            TempID: 30 8/16/1996 BERGS
-            TempID: 32 9/12/1996 BERGS
-            TempID: 17 8/12/1996 BLONP
-            TempID: 49 9/10/1996 BLONP
-            TempID: 78 10/14/1996 BOLID
-            TempID: 83 10/21/1996 BONAP
-            TempID: 92 11/8/1996 BONAP
-            TempID: 41 8/28/1996 BSBEV
-            TempID: 11 7/25/1996 CENTC
-            TempID: 6 7/23/1996 CHOPS
-            ...
-            Sequential -------------------------------------------------
-            TempID: 0 9/24/1996 ANATR
-            TempID: 1 8/16/1996 BERGS
-            TempID: 2 9/12/1996 BERGS
-            TempID: 3 8/12/1996 BLONP
-            TempID: 4 9/10/1996 BLONP
-            TempID: 5 10/14/1996 BOLID
-            TempID: 6 10/21/1996 BONAP
-            TempID: 7 11/8/1996 BONAP
-            TempID: 8 8/28/1996 BSBEV
-            TempID: 9 7/25/1996 CENTC
-            TempID: 10 7/23/1996 CHOPS
-            ...
-         */
-        //</s n i p p e t24>
-
-
-
-        //<s n i p p e t25>
-        //class TempOrder
-        //{
-        //    public int TempID { get; set; }
-        //    public DateTime Date { get; set; }
-        //    public string CustID { get; set; }
-        //}
-        //static void SequentialDemoOld2()
-        //{
-
-        //    var orders = GetOrders();
-
-        //    int counter = 0;
-        //    var sequentialQuery = orders.AsParallel()
-        //                                .OrderBy(o => o.CustomerID)
-        //                                .AsSequential()
-        //                                .Select(ord => new TempOrder
-        //                                {
-        //                                    TempID = counter++,
-        //                                    Date = ord.ShippedDate,
-        //                                    CustID = ord.CustomerID
-        //                                })
-        //                                .AsParallel()
-        //                                .Select(o => GetProbabilityOfFutureOrders(o));
-
-        //}
-
-        //// Assume this takes a long time to calculate
-        //static string GetProbabilityOfFutureOrders(TempOrder ord)
-        //{
-        //    // Simulate some heavy work.
-        //    Thread.SpinWait(500000);
-        //    return DateTime.Now.Ticks % 2 == 0 ? "neglible" : "significant";
-
-        //}
-        ////</s n i p p e t25>
     }
 
     //<snippet16>
@@ -304,13 +189,14 @@ namespace PLINQ_Samples
         using System.Linq;
         using System.Threading;
         using System.Threading.Tasks;
+        using static System.Console;
 
         class Program
         {
             static void Main(string[] args)
             {
                 int[] source = Enumerable.Range(1, 10000000).ToArray();
-                CancellationTokenSource cts = new CancellationTokenSource();
+                var cts = new CancellationTokenSource();
 
                 // Start a new asynchronous task that will cancel the 
                 // operation from another thread. Typically you would call
@@ -318,49 +204,51 @@ namespace PLINQ_Samples
                 // user interface event.
                 Task.Factory.StartNew(() =>
                 {
-                    UserClicksTheCancelButton(cs);
+                    UserClicksTheCancelButton(cts);
                 });
 
                 int[] results = null;
-                try {
+                try
+                {
                     results = (from num in source.AsParallel().WithCancellation(cts.Token)
                                where num % 3 == 0
                                orderby num descending
                                select num).ToArray();
-
                 }
-                catch (OperationCanceledException e) {
-                    Console.WriteLine(e.Message);
+                catch (OperationCanceledException e)
+                {
+                    WriteLine(e.Message);
                 }
-                catch (AggregateException ae) {
+                catch (AggregateException ae)
+                {
                     if (ae.InnerExceptions != null)
                     {
                         foreach (Exception e in ae.InnerExceptions)
-                            Console.WriteLine(e.Message);
+                            WriteLine(e.Message);
                     }
                 }
-                finally {
+                finally
+                {
                    cts.Dispose();
                 }
 
                 if (results != null)
                 {
                     foreach (var v in results)
-                        Console.WriteLine(v);
+                        WriteLine(v);
                 }
-                Console.WriteLine();
-                Console.ReadKey();
-
+                WriteLine();
+                ReadKey();
             }
 
-            static void UserClicksTheCancelButton(CancellationTokenSource cs)
+            static void UserClicksTheCancelButton(CancellationTokenSource cts)
             {
                 // Wait between 150 and 500 ms, then cancel.
                 // Adjust these values if necessary to make
                 // cancellation fire while query is still executing.
                 Random rand = new Random();
-                Thread.Sleep(rand.Next(150, 350));
-                cs.Cancel();
+                Thread.Sleep(rand.Next(150, 500));
+                cts.Cancel();
             }
         }
     }
@@ -373,15 +261,14 @@ namespace PLINQ_Samples
         using System.Linq;
         using System.Threading;
         using System.Threading.Tasks;
+        using static System.Console;
 
         class Program
         {
             static void Main(string[] args)
             {
-
-
                 int[] source = Enumerable.Range(1, 10000000).ToArray();
-                CancellationTokenSource cts = new CancellationTokenSource();
+                var cts = new CancellationTokenSource();
 
                 // Start a new asynchronous task that will cancel the 
                 // operation from another thread. Typically you would call
@@ -393,34 +280,36 @@ namespace PLINQ_Samples
                 });
 
                 double[] results = null;
-                try {
+                try
+                {
                     results = (from num in source.AsParallel().WithCancellation(cts.Token)
                                where num % 3 == 0
-                               select Function(num, cs.Token)).ToArray();
-
+                               select Function(num, cts.Token)).ToArray();
                 }
-                catch (OperationCanceledException e) {
-                    Console.WriteLine(e.Message);
+                catch (OperationCanceledException e)
+                {
+                    WriteLine(e.Message);
                 }
                 catch (AggregateException ae)
+                {
                     if (ae.InnerExceptions != null)
                     {
                         foreach (Exception e in ae.InnerExceptions)
-                            Console.WriteLine(e.Message);
+                            WriteLine(e.Message);
                     }
                 }
-                finally {
+                finally
+                {
                     cts.Dispose();
                 }
 
                 if (results != null)
                 {
                     foreach (var v in results)
-                        Console.WriteLine(v);
+                        WriteLine(v);
                 }
-                Console.WriteLine();
-                Console.ReadKey();
-
+                WriteLine();
+                ReadKey();
             }
 
             // A toy method to simulate work.
@@ -441,16 +330,16 @@ namespace PLINQ_Samples
                 return Math.Sqrt(n);
             }
 
-            static void UserClicksTheCancelButton(CancellationTokenSource cs)
+            static void UserClicksTheCancelButton(CancellationTokenSource cts)
             {
                 // Wait between 150 and 500 ms, then cancel.
                 // Adjust these values if necessary to make
                 // cancellation fire while query is still executing.
                 Random rand = new Random();
-                Thread.Sleep(rand.Next(150, 350));
-                Console.WriteLine("Press 'c' to cancel");
-                if (Console.ReadKey().KeyChar == 'c')
-                    cs.Cancel();
+                Thread.Sleep(rand.Next(150, 500));
+                WriteLine("Press 'c' to cancel");
+                if (ReadKey().KeyChar == 'c')
+                    cts.Cancel();
             }
         }
     }

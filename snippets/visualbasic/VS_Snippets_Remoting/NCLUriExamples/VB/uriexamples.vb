@@ -71,10 +71,15 @@ Public Class Test
         ' Create Uri
         Dim uriAddress As New Uri("http://www.contoso.com/index.htm#search")
         Console.WriteLine(uriAddress.Fragment)
-        Console.WriteLine("Uri {0} the default port ", IIf(uriAddress.IsDefaultPort, "uses", "does not use")) 'TODO: For performance reasons this should be changed to nested IF statements
+        Console.WriteLine("Uri {0} the default port ", If(uriAddress.IsDefaultPort, "uses", "does not use")) 
         
         Console.WriteLine("The path of this Uri is {0}", uriAddress.GetLeftPart(UriPartial.Path))
         Console.WriteLine("Hash code {0}", uriAddress.GetHashCode())
+        ' The example displays the following output:
+        '        #search
+        '        Uri uses the default port
+        '        The path of this Uri is http://www.contoso.com/index.htm
+        '        Hash code -988419291
         '</snippet4>
         '<snippet5>
         Dim uriAddress1 As New Uri("http://www.contoso.com/title/index.htm")
@@ -86,9 +91,13 @@ Public Class Test
         Console.WriteLine("Uri {0} a UNC path", IIf(uriAddress2.IsUnc, "is", "is not")) 'TODO: For performance reasons this should be changed to nested IF statements
         Console.WriteLine("Uri {0} a local host", IIf(uriAddress2.IsLoopback, "is", "is not")) 'TODO: For performance reasons this should be changed to nested IF statements
         Console.WriteLine("Uri {0} a file", IIf(uriAddress2.IsFile, "is", "is not")) 'TODO: For performance reasons this should be changed to nested IF statements
-    
-    End Sub 'GetParts
-     '</snippet6>
+        ' The example displays the following output:
+        '    \\server\filename.ext
+        '    Uri is a UNC path
+        '    Uri is not a local host
+        '    Uri is a file
+        ' </snippet6>
+    End Sub 
     
     Private Shared Sub HexConversions() 
         '<snippet1>

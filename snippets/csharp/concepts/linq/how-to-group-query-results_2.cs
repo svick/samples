@@ -12,10 +12,10 @@
 
             foreach (var nameGroup in queryLastNames)
             {
-                Console.WriteLine("Key: {0}", nameGroup.Key);
+                Console.WriteLine($"Key: {nameGroup.Key}");
                 foreach (var student in nameGroup)
                 {
-                    Console.WriteLine("\t{student.LastName}, {student.FirstName}");
+                    Console.WriteLine($"\t{student.LastName}, {student.FirstName}");
                 }
             }
         }

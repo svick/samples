@@ -1,5 +1,4 @@
 '<Snippet1>
-Imports System
 Imports System.IO
 Imports System.Security.Cryptography
 
@@ -8,28 +7,22 @@ Imports System.Security.Cryptography
 Class AesExample
 
     Public Shared Sub Main()
-        Try
+        Dim original As String = "Here is some data to encrypt!"
 
-            Dim original As String = "Here is some data to encrypt!"
+        ' Create a new instance of the AesManaged
+        ' class.  This generates a new key and initialization 
+        ' vector (IV).
+        Using myAes As New AesManaged()
+            ' Encrypt the string to an array of bytes.
+            Dim encrypted As Byte() = EncryptStringToBytes_Aes(original, myAes.Key, myAes.IV)
 
-            ' Create a new instance of the AesManaged
-            ' class.  This generates a new key and initialization 
-            ' vector (IV).
-            Using myAes As New AesManaged()
+            ' Decrypt the bytes to a string.
+            Dim roundtrip As String = DecryptStringFromBytes_Aes(encrypted, myAes.Key, myAes.IV)
 
-                ' Encrypt the string to an array of bytes.
-                Dim encrypted As Byte() = EncryptStringToBytes_Aes(original, myAes.Key, myAes.IV)
-
-                ' Decrypt the bytes to a string.
-                Dim roundtrip As String = DecryptStringFromBytes_Aes(encrypted, myAes.Key, myAes.IV)
-
-                'Display the original data and the decrypted data.
-                Console.WriteLine("Original:   {0}", original)
-                Console.WriteLine("Round Trip: {0}", roundtrip)
-            End Using
-        Catch e As Exception
-            Console.WriteLine("Error: {0}", e.Message)
-        End Try
+            'Display the original data and the decrypted data.
+            Console.WriteLine("Original:   {0}", original)
+            Console.WriteLine("Round Trip: {0}", roundtrip)
+        End Using
 
     End Sub 'Main
 
@@ -46,6 +39,7 @@ Class AesExample
             Throw New ArgumentNullException("IV")
         End If
         Dim encrypted() As Byte
+        
         ' Create an AesManaged object
         ' with the specified key and IV.
         Using aesAlg As New AesManaged()
@@ -53,13 +47,12 @@ Class AesExample
             aesAlg.Key = Key
             aesAlg.IV = IV
 
-            ' Create a decrytor to perform the stream transform.
+            ' Create an encryptor to perform the stream transform.
             Dim encryptor As ICryptoTransform = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV)
             ' Create the streams used for encryption.
             Using msEncrypt As New MemoryStream()
                 Using csEncrypt As New CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write)
                     Using swEncrypt As New StreamWriter(csEncrypt)
-
                         'Write all data to the stream.
                         swEncrypt.Write(plainText)
                     End Using
@@ -96,7 +89,7 @@ Class AesExample
             aesAlg.Key = Key
             aesAlg.IV = IV
 
-            ' Create a decrytor to perform the stream transform.
+            ' Create a decryptor to perform the stream transform.
             Dim decryptor As ICryptoTransform = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV)
 
             ' Create the streams used for decryption.

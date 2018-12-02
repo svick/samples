@@ -120,7 +120,7 @@ module BasicFunctions =
 
     /// Conditionals use if/then/elif/else.
     ///
-    /// Note that F# uses whitespace indentation-aware syntax, similar to languages like Python.
+    /// Note that F# uses white space indentation-aware syntax, similar to languages like Python.
     let sampleFunction3 x = 
         if x < 100.0 then 
             2.0*x*x - x/5.0 + 3.0
@@ -717,14 +717,17 @@ module PatternMatching =
         | Executive of executive: Person * reports: List<Employee> * assistant: Employee
 
     /// Count everyone underneath the employee in the management hierarchy,
-    /// including the employee.
+    /// including the employee. The matches bind names to the properties 
+    /// of the cases so that those names can be used inside the match branches.
+    /// Note that the names used for binding do not need to be the same as the 
+    /// names given in the DU definition above.
     let rec countReports(emp : Employee) =
         1 + match emp with
-            | Engineer(id) ->
+            | Engineer(person) ->
                 0
-            | Manager(id, reports) ->
+            | Manager(person, reports) ->
                 reports |> List.sumBy countReports
-            | Executive(id, reports, assistant) ->
+            | Executive(person, reports, assistant) ->
                 (reports |> List.sumBy countReports) + countReports assistant
 
 

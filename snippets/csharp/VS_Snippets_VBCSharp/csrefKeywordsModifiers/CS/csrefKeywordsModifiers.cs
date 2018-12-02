@@ -8,12 +8,12 @@ using System.Runtime.InteropServices;
 
 namespace csrefKeywordsModifiers
 {
-    //<snippet1>
-    
+    //<snippet1>    
     abstract class ShapesClass
     {
         abstract public int Area();
     }
+    
     class Square : ShapesClass
     {
         int side = 0;
@@ -92,11 +92,8 @@ namespace csrefKeywordsModifiers
         }
     }
     // Output: x = 111, y = 161
-
     //</snippet3>
-
 }
-
 //<snippet4>
 
 namespace AccessibilityDomainNamespace
@@ -166,12 +163,9 @@ namespace AccessibilityDomainNamespace
             // Error CS0122: inaccessible outside M2:
             //    T1.M2.privateInt = 3;
 
-
-
             // Keep the console open in debug mode.
             System.Console.WriteLine("Press any key to exit.");
             System.Console.ReadKey();
-
         }
     }
 }
@@ -182,7 +176,7 @@ namespace csrefKeywordsModifiers
     //<snippet5>       
     public class ConstTest 
     {
-        class SampleClass 
+        class SampleClass
         {
             public int x;
             public int y;
@@ -196,19 +190,19 @@ namespace csrefKeywordsModifiers
             }
         }
 
-        static void Main() 
+        static void Main()
         {
-            SampleClass mC = new SampleClass(11, 22);   
+            SampleClass mC = new SampleClass(11, 22);
             Console.WriteLine("x = {0}, y = {1}", mC.x, mC.y);
             Console.WriteLine("c1 = {0}, c2 = {1}", 
-                              SampleClass.c1, SampleClass.c2 );
+                              SampleClass.c1, SampleClass.c2);
         }
     }
     /* Output
         x = 11, y = 22
         c1 = 5, c2 = 10
-     */
-     //</snippet5>
+    */
+    //</snippet5>
 
     //<snippet6>
     public class SealedTest
@@ -223,12 +217,12 @@ namespace csrefKeywordsModifiers
     //</snippet6>
 
     //<snippet7>
-
     public class SampleEventArgs
     {
         public SampleEventArgs(string s) { Text = s; }
-        public String Text {get; private set;} // readonly
+        public String Text { get; } // readonly
     }
+    
     public class Publisher
     {
         // Declare the delegate (if using non-generic pattern).
@@ -246,7 +240,6 @@ namespace csrefKeywordsModifiers
                 SampleEvent(this, new SampleEventArgs("Hello"));
         }
     }
-
     //</snippet7>
 
     //<snippet8>
@@ -265,7 +258,6 @@ namespace csrefKeywordsModifiers
         }
 
     }
-
     //</snippet8>
 
     //<snippet9>
@@ -415,7 +407,6 @@ namespace csrefKeywordsModifiers
         }
     }
     // Output: x = 10, y = 15
-
     //</snippet12>
 
     //<snippet13>
@@ -452,7 +443,6 @@ namespace csrefKeywordsModifiers
             //_year = 1967; // Compile error if uncommented.
         }
     }
-
     //</snippet14>
 
     //<snippet15>
@@ -493,7 +483,6 @@ namespace csrefKeywordsModifiers
         p1: x=11, y=21, z=32
         p2: x=55, y=25, z=24
     */
-
      //</snippet15>
 
     //<snippet16>
@@ -502,20 +491,21 @@ namespace csrefKeywordsModifiers
         protected virtual void F() { Console.WriteLine("X.F"); }
         protected virtual void F2() { Console.WriteLine("X.F2"); }
     }
+    
     class Y : X
     {
         sealed protected override void F() { Console.WriteLine("Y.F"); }
         protected override void F2() { Console.WriteLine("Y.F2"); }
     }
+    
     class Z : Y
     {
         // Attempting to override F causes compiler error CS0239.
-        // protected override void F() { Console.WriteLine("C.F"); }
+        // protected override void F() { Console.WriteLine("Z.F"); }
 
         // Overriding F2 is allowed.
         protected override void F2() { Console.WriteLine("Z.F2"); }
     }
-
     //</snippet16>
 
     //<snippet17>
@@ -536,7 +526,6 @@ namespace csrefKeywordsModifiers
         }
     }
     // Output: x = 110, y = 150
-
     //</snippet17>
 
     //<snippet18>
@@ -545,7 +534,6 @@ namespace csrefKeywordsModifiers
         public static void DoSomething() { /*...*/ }
         public static void DoSomethingElse() { /*...*/  }
     }
-
     //</snippet18>
 
     //<snippet19>
@@ -556,56 +544,55 @@ namespace csrefKeywordsModifiers
             public static int x = 100;
         }
     }
-
     //</snippet19>
 
     //<snippet20>
     public class Employee4
-{
-    public string id;
-    public string name;
-
-    public Employee4()
     {
+        public string id;
+        public string name;
+
+        public Employee4()
+        {
+        }
+
+        public Employee4(string name, string id)
+        {
+            this.name = name;
+            this.id = id;
+        }
+
+        public static int employeeCounter;
+
+        public static int AddEmployee()
+        {
+            return ++employeeCounter;
+        }
     }
 
-    public Employee4(string name, string id)
+    class MainClass : Employee4
     {
-        this.name = name;
-        this.id = id;
-    }
+        static void Main()
+        {
+            Console.Write("Enter the employee's name: ");
+            string name = Console.ReadLine();
+            Console.Write("Enter the employee's ID: ");
+            string id = Console.ReadLine();
 
-    public static int employeeCounter;
+            // Create and configure the employee object:
+            Employee4 e = new Employee4(name, id);
+            Console.Write("Enter the current number of employees: ");
+            string n = Console.ReadLine();
+            Employee4.employeeCounter = Int32.Parse(n);
+            Employee4.AddEmployee();
 
-    public static int AddEmployee()
-    {
-        return ++employeeCounter;
-    }
-}
-
-class MainClass : Employee4
-{
-    static void Main()
-    {
-        Console.Write("Enter the employee's name: ");
-        string name = Console.ReadLine();
-        Console.Write("Enter the employee's ID: ");
-        string id = Console.ReadLine();
-
-        // Create and configure the employee object:
-        Employee4 e = new Employee4(name, id);
-        Console.Write("Enter the current number of employees: ");
-        string n = Console.ReadLine();
-        Employee4.employeeCounter = Int32.Parse(n);
-        Employee4.AddEmployee();
-
-        // Display the new information:
-        Console.WriteLine("Name: {0}", e.name);
-        Console.WriteLine("ID:   {0}", e.id);
-        Console.WriteLine("New Number of Employees: {0}",
+            // Display the new information:
+            Console.WriteLine("Name: {0}", e.name);
+            Console.WriteLine("ID:   {0}", e.id);
+            Console.WriteLine("New Number of Employees: {0}",
                       Employee4.employeeCounter);
+        }
     }
-}
     /*
     Input:
     Matthias Berndt
@@ -620,23 +607,22 @@ class MainClass : Employee4
     ID:   AF643G
     New Number of Employees: 16
     */
-
     //</snippet20>
 
-//<snippet21>
+    //<snippet21>
     class Test
     {
-       static int x = y;
-       static int y = 5;
+        static int x = y;
+        static int y = 5;
 
-       static void Main()
-       {
-          Console.WriteLine(Test.x);
-          Console.WriteLine(Test.y);
+        static void Main()
+        {
+            Console.WriteLine(Test.x);
+            Console.WriteLine(Test.y);
 
-          Test.x = 99;
-          Console.WriteLine(Test.x);
-       }
+            Test.x = 99;
+            Console.WriteLine(Test.x);
+        }
     }
     /*
     Output:
@@ -644,29 +630,27 @@ class MainClass : Employee4
         5
         99
     */
-//</snippet21>
+    //</snippet21>
 
     //<snippet22>
-    // compile with: /unsafe
-
+    // compile with: -unsafe
     class UnsafeTest
     {
-       // Unsafe method: takes pointer to int:
-       unsafe static void SquarePtrParam(int* p)
-       {
-          *p *= *p;
-       }
+        // Unsafe method: takes pointer to int:
+        unsafe static void SquarePtrParam(int* p)
+        {
+            *p *= *p;
+        }
 
-       unsafe static void Main()
-       {
-          int i = 5;
-          // Unsafe method: uses address-of operator (&):
-          SquarePtrParam(&i);
-          Console.WriteLine(i);
-       }
+        unsafe static void Main()
+        {
+            int i = 5;
+            // Unsafe method: uses address-of operator (&):
+            SquarePtrParam(&i);
+            Console.WriteLine(i);
+        }
     }
     // Output: 25
-
     //</snippet22>
 
     //<snippet23>
@@ -676,9 +660,11 @@ class MainClass : Employee4
         {
             public const double PI = Math.PI;
             protected double x, y;
+            
             public Shape()
             {
             }
+            
             public Shape(double x, double y)
             {
                 this.x = x;
@@ -737,15 +723,15 @@ class MainClass : Employee4
             Console.WriteLine("Area of Circle   = {0:F2}", c.Area());
             Console.WriteLine("Area of Sphere   = {0:F2}", s.Area());
             Console.WriteLine("Area of Cylinder = {0:F2}", l.Area());
-            }
         }
-        /*
-            Output:
-            Area of Circle   = 28.27
-            Area of Sphere   = 113.10
-            Area of Cylinder = 150.80
-        */
-        //</snippet23>
+    }
+    /*
+    Output:
+    Area of Circle   = 28.27
+    Area of Sphere   = 113.10
+    Area of Cylinder = 150.80
+    */
+    //</snippet23>
 
     //<snippet24>
     class VolatileTest
@@ -757,9 +743,7 @@ class MainClass : Employee4
             i = _i;
         }
     }
-
     //</snippet24>
-
     
     class UsingTest
     {
@@ -796,7 +780,6 @@ class MainClass : Employee4
         }
     }
 
-   
     class MyDerivedClass : MyBaseClass
     {
         private string name;
@@ -820,8 +803,7 @@ class MainClass : Employee4
                     name = "Unknown";
                 }
             }
-        }
- 
+        } 
     }
     //</snippet26>       
 }

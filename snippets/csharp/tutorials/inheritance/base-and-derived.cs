@@ -15,13 +15,13 @@ public abstract class Publication
       if (publisher == null)
          throw new ArgumentNullException("The publisher cannot be null.");
       else if (String.IsNullOrWhiteSpace(publisher))
-         throw new ArgumentException("The publisher cannot consist only of whitespace.");
+         throw new ArgumentException("The publisher cannot consist only of white space.");
       Publisher = publisher;
   
       if (title == null)
          throw new ArgumentNullException("The title cannot be null.");
       else if (String.IsNullOrWhiteSpace(title))
-         throw new ArgumentException("The title cannot consist only of whitespace.");
+         throw new ArgumentException("The title cannot consist only of white space.");
       Title = title;
 
       Type = type;
@@ -67,13 +67,13 @@ public abstract class Publication
       if (copyrightName == null)
          throw new ArgumentNullException("The name of the copyright holder cannot be null.");
       else if (String.IsNullOrWhiteSpace(copyrightName))
-         throw new ArgumentException("The name of the copyright holder cannot consist only of whitespace.");
+         throw new ArgumentException("The name of the copyright holder cannot consist only of white space.");
       CopyrightName = copyrightName;
       
       int currentYear = DateTime.Now.Year;
       if (copyrightDate < currentYear - 10 || copyrightDate > currentYear + 2)
-         throw new ArgumentOutOfRangeException($"The copyright year must be between {currentYear -10} and {currentYear + 1}");
-            CopyrightDate = copyrightDate;      
+         throw new ArgumentOutOfRangeException($"The copyright year must be between {currentYear - 10} and {currentYear + 1}");
+      CopyrightDate = copyrightDate;      
    }
 
    public override string ToString() => Title;

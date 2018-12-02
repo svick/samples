@@ -2,7 +2,7 @@
 namespace Wrap1
 {
     //<Snippet1>
-    // compile with: /doc:DocFileName.xml 
+    // compile with: -doc:DocFileName.xml 
 
     /// text for class TestClass
     public class TestClass
@@ -33,12 +33,13 @@ namespace Wrap1
 namespace Wrap2
 {
     //<Snippet2>
-    // compile with: /doc:DocFileName.xml 
+    // compile with: -doc:DocFileName.xml 
 
     /// text for class TestClass
     public class TestClass
     {
-        /// <summary><c>DoWork</c> is a method in the <c>TestClass</c> class.
+        /// <summary>
+        /// <c>DoWork</c> is a method in the <c>TestClass</c> class.
         /// </summary>
         public static void DoWork(int Int1)
         {
@@ -56,7 +57,7 @@ namespace Wrap2
 //-----------------------------------------------------------------------------
 //<Snippet3>
 // Save this file as CRefTest.cs
-// Compile with: csc CRefTest.cs /doc:Results.xml 
+// Compile with: csc CRefTest.cs -doc:Results.xml 
 
 namespace TestNamespace
 {
@@ -66,13 +67,13 @@ namespace TestNamespace
     public class TestClass
     {
         /// <summary>
-        /// This sample shows how to specify the <see cref="TestClass"/> constructor as a cref attribute. 
+        /// This sample shows how to specify the <see cref="TestClass"/> constructor as a cref attribute.
         /// </summary>
         public TestClass()
         { }
 
         /// <summary>
-        /// This sample shows how to specify the <see cref="TestClass(int)"/> constructor as a cref attribute. 
+        /// This sample shows how to specify the <see cref="TestClass(int)"/> constructor as a cref attribute.
         /// </summary>
         public TestClass(int value)
         { }
@@ -135,7 +136,7 @@ namespace TestNamespace
 
 namespace Wrap3
 {
-    // compile with: /doc:DocFileName.xml 
+    // compile with: -doc:DocFileName.xml 
 
     /// text for class TestClass
     public class TestClass
@@ -171,7 +172,7 @@ namespace Wrap3
 namespace Wrap4
 {
     //<Snippet4>
-    // compile with: /doc:DocFileName.xml 
+    // compile with: -doc:DocFileName.xml 
 
     /// Comment for class
     public class EClass : System.Exception
@@ -201,7 +202,7 @@ namespace Wrap4
 namespace Wrap5
 {
     //<Snippet5>
-    // compile with: /doc:DocFileName.xml 
+    // compile with: -doc:DocFileName.xml 
 
     /// <include file='xml_include_tag.doc' path='MyDocs/MyMembers[@name="test"]/*' />
     class Test
@@ -228,7 +229,7 @@ namespace Wrap5
 namespace Wrap6
 {
     //<Snippet6>
-    // compile with: /doc:DocFileName.xml 
+    // compile with: -doc:DocFileName.xml 
 
     /// text for class TestClass
     public class TestClass
@@ -255,7 +256,7 @@ namespace Wrap6
 namespace Wrap7
 {
     //<Snippet7>
-    // compile with: /doc:DocFileName.xml 
+    // compile with: -doc:DocFileName.xml 
 
     /// text for class TestClass
     public class TestClass
@@ -280,7 +281,7 @@ namespace Wrap7
 namespace Wrap8
 {
     //<Snippet8>
-    // compile with: /doc:DocFileName.xml 
+    // compile with: -doc:DocFileName.xml 
 
     class TestClass
     {
@@ -301,7 +302,7 @@ namespace Wrap8
 namespace Wrap9
 {
     //<Snippet9>
-    // compile with: /doc:DocFileName.xml 
+    // compile with: -doc:DocFileName.xml 
 
     /// <summary>
     /// You may have some primary information about this class.
@@ -324,7 +325,7 @@ namespace Wrap9
 namespace Wrap10
 {
     //<Snippet10>
-    // compile with: /doc:DocFileName.xml 
+    // compile with: -doc:DocFileName.xml 
 
     /// text for class TestClass
     public class TestClass
@@ -348,7 +349,7 @@ namespace Wrap10
 namespace Wrap11
 {
     //<Snippet11>
-    // compile with: /doc:DocFileName.xml 
+    // compile with: -doc:DocFileName.xml 
 
     // the following cref shows how to specify the reference, such that,
     // the compiler will resolve the reference
@@ -377,7 +378,7 @@ namespace Wrap11
 namespace Wrap12
 {
     //<Snippet12>
-    // compile with: /doc:DocFileName.xml 
+    // compile with: -doc:DocFileName.xml 
 
     /// text for class TestClass
     public class TestClass
@@ -403,7 +404,7 @@ namespace Wrap12
 namespace Wrap13
 {
     //<Snippet13>
-    // compile with: /doc:DocFileName.xml 
+    // compile with: -doc:DocFileName.xml 
 
     /// comment for class
     public class TestClass
@@ -425,7 +426,7 @@ namespace Wrap13
 namespace Wrap14
 {
     //<Snippet14>
-    // compile with: /doc:DocFileName.xml 
+    // compile with: -doc:DocFileName.xml 
 
     /// text for class Employee
     public class Employee
@@ -464,30 +465,36 @@ namespace Wrap14
 namespace Wrap15
 {
     //<Snippet15>
-    // If compiling from the command line, compile with: /doc:YourFileName.xml
+    // If compiling from the command line, compile with: -doc:YourFileName.xml
 
     /// <summary>
-    /// Class level summary documentation goes here.</summary>
+    /// Class level summary documentation goes here.
+    /// </summary>
     /// <remarks>
     /// Longer comments can be associated with a type or member through
-    /// the remarks tag.</remarks>
+    /// the remarks tag.
+    /// </remarks>
     public class TestClass : TestInterface
     {
         /// <summary>
-        /// Store for the name property.</summary>
+        /// Store for the Name property.
+        /// </summary>
         private string _name = null;
 
         /// <summary>
-        /// The class constructor. </summary>
+        /// The class constructor.
+        /// </summary>
         public TestClass()
         {
             // TODO: Add Constructor Logic here.
         }
 
         /// <summary>
-        /// Name property. </summary>
+        /// Name property.
+        /// </summary>
         /// <value>
-        /// A value tag is used to describe the property value.</value>
+        /// A value tag is used to describe the property value.
+        /// </value>
         public string Name
         {
             get
@@ -501,21 +508,26 @@ namespace Wrap15
         }
 
         /// <summary>
-        /// Description for SomeMethod.</summary>
+        /// Description for SomeMethod.
+        /// </summary>
         /// <param name="s"> Parameter description for s goes here.</param>
         /// <seealso cref="System.String">
         /// You can use the cref attribute on any tag to reference a type or member 
-        /// and the compiler will check that the reference exists. </seealso>
+        /// and the compiler will check that the reference exists.
+        /// </seealso>
         public void SomeMethod(string s)
         {
         }
 
         /// <summary>
-        /// Some other method. </summary>
+        /// Some other method.
+        /// </summary>
         /// <returns>
-        /// Return results are described through the returns tag.</returns>
+        /// Return values are described through the returns tag.
+        /// </returns>
         /// <seealso cref="SomeMethod(string)">
-        /// Notice the use of the cref attribute to reference a specific method. </seealso>
+        /// Notice the use of the cref attribute to reference a specific method.
+        /// </seealso>
         public int SomeOtherMethod()
         {
             return 0;
